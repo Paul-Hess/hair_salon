@@ -111,8 +111,6 @@ public class Stylist {
 	}
 // delete
 	public void remove() {	
-		System.out.println(this.getId());
-		System.out.println(Client.all().get(0).getStylistId());
 		try(Connection con = DB.sql2o.open()) {
 			String deleteClientsQuery = "DELETE FROM clients WHERE stylist_id=:id";
 			con.createQuery(deleteClientsQuery)

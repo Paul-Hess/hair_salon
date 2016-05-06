@@ -19,14 +19,13 @@ public class Visit {
 
 
 	// setters
-	private int id;
-	private Timestamp visit_datetime;
 	private int stylist_id;
 	private int client_id;
 	private String style_description;
 	private String style_review;
 	private Timestamp created_at;
 	private Timestamp updated_at;
+	private Timestamp visit_datetime;
 
 	public Visit(int stylist_id, int client_id, String style_description, String style_review, Timestamp visit_datetime) {
 		this.visit_datetime = visit_datetime;
@@ -41,10 +40,9 @@ public class Visit {
 
 	// create
 	public void schedule() {
-		System.out.println(this.id);
 		try(Connection con = DB.sql2o.open()) {
 			String sql = "INSERT INTO visits (visit_datetime, stylist_id, client_id, style_description, style_review, created_at, updated_at) VALUES (:visit_datetime, :stylist_id, :client_id, :style_description, :style_review, :created_at, :updated_at)";
-			this.id = (int) con.createQuery(sql, true)
+			con.createQuery(sql)
 			.addParameter("visit_datetime", this.visit_datetime)
 			.addParameter("stylist_id", this.stylist_id)
 			.addParameter("client_id", this.client_id)
@@ -52,9 +50,7 @@ public class Visit {
 			.addParameter("style_review", this.style_review)
 			.addParameter("created_at", this.created_at)
 			.addParameter("updated_at", this.updated_at)
-			.executeUpdate()
-			.getKey();
-			System.out.println(this.id);	
+			.executeUpdate();
 		}
 	}
 
@@ -67,17 +63,32 @@ public class Visit {
 		}
 	}
 
+	public static Visit find(int stylist_id_query, int client_id_query, Timestamp visit_datetime_query) {
+		try(Connection con = DB.sql2o.open()) {
+			String sql = "SELECT * FROM visits WHERE stylist_id=:stylist_id AND client_id=:client_id AND visit_datetime=:visit_datetime";
+			return con.createQuery(sql)
+			.addParameter("stylist_id", stylist_id_query)
+			.addParameter("client_id", client_id_query)
+			.addParameter("visit_datetime", visit_datetime_query)
+			.executeAndFetchFirst(Visit.class);
+		}
+	}
+
 	// update
+	public void reSchedule(Timestamp newDatetime) {
+		try(Connection con = DB.sql2o.open()) {
+			String sql = "UPDATE visits SET visit_datetime=:new_visit_datetime WHERE stylist_id=:stylist_id AND client_id=:client_id AND visit_datetime=:old_visit_datetime";
+			con.createQuery(sql)
+			.addParameter("new_visit_datetime", newDatetime)
+			.addParameter("stylist_id", this.stylist_id)
+			.addParameter("old_visit_datetime", this.visit_datetime)
+			.addParameter("client_id", this.client_id)
+			.executeUpdate();
+		}
+	}
 
 
 	// delete
-
-
-
-	// getters
-	public int getId() {
-		return this.id;
-	}
 
 	public Timestamp getVisitDate() {
 		return this.visit_datetime;

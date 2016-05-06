@@ -74,7 +74,8 @@ CREATE TABLE stylists (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone,
     stylist_name character varying NOT NULL,
-    stylist_specialty character varying NOT NULL
+    stylist_specialty character varying NOT NULL,
+    img_url character varying NOT NULL
 );
 
 
@@ -106,37 +107,17 @@ ALTER SEQUENCE stylists_id_seq OWNED BY stylists.id;
 --
 
 CREATE TABLE visits (
-    id integer NOT NULL,
-    visit_datetime timestamp without time zone NOT NULL,
     stylist_id integer NOT NULL,
     client_id integer NOT NULL,
     style_description character varying,
-    style_review character varying
+    style_review character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    visit_datetime timestamp without time zone NOT NULL
 );
 
 
 ALTER TABLE visits OWNER TO home;
-
---
--- Name: visits_id_seq; Type: SEQUENCE; Schema: public; Owner: home
---
-
-CREATE SEQUENCE visits_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE visits_id_seq OWNER TO home;
-
---
--- Name: visits_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: home
---
-
-ALTER SEQUENCE visits_id_seq OWNED BY visits.id;
-
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: home
@@ -150,13 +131,6 @@ ALTER TABLE ONLY clients ALTER COLUMN id SET DEFAULT nextval('clients_id_seq'::r
 --
 
 ALTER TABLE ONLY stylists ALTER COLUMN id SET DEFAULT nextval('stylists_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: home
---
-
-ALTER TABLE ONLY visits ALTER COLUMN id SET DEFAULT nextval('visits_id_seq'::regclass);
 
 
 --
@@ -178,7 +152,7 @@ SELECT pg_catalog.setval('clients_id_seq', 1, false);
 -- Data for Name: stylists; Type: TABLE DATA; Schema: public; Owner: home
 --
 
-COPY stylists (id, created_at, updated_at, stylist_name, stylist_specialty) FROM stdin;
+COPY stylists (id, created_at, updated_at, stylist_name, stylist_specialty, img_url) FROM stdin;
 \.
 
 
@@ -193,15 +167,8 @@ SELECT pg_catalog.setval('stylists_id_seq', 1, false);
 -- Data for Name: visits; Type: TABLE DATA; Schema: public; Owner: home
 --
 
-COPY visits (id, visit_datetime, stylist_id, client_id, style_description, style_review) FROM stdin;
+COPY visits (stylist_id, client_id, style_description, style_review, created_at, updated_at, visit_datetime) FROM stdin;
 \.
-
-
---
--- Name: visits_id_seq; Type: SEQUENCE SET; Schema: public; Owner: home
---
-
-SELECT pg_catalog.setval('visits_id_seq', 1, false);
 
 
 --
@@ -226,14 +193,6 @@ ALTER TABLE ONLY stylists
 
 ALTER TABLE ONLY stylists
     ADD CONSTRAINT stylists_stylist_name_key UNIQUE (stylist_name);
-
-
---
--- Name: visits_pkey; Type: CONSTRAINT; Schema: public; Owner: home; Tablespace: 
---
-
-ALTER TABLE ONLY visits
-    ADD CONSTRAINT visits_pkey PRIMARY KEY (id);
 
 
 --

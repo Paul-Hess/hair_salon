@@ -17,11 +17,6 @@ public class VisitTest {
   }	
 
   @Test 
-  public void getId_returnsInstanceId_id() {
-  	assertEquals(testVisit.getId(), 0);
-  }
-
-  @Test 
   public void getDate_returnsDateTimeOfVisit_timestamp() {
   	Timestamp testTimestamp = new Timestamp(new Date().getTime());
   	assertEquals(testTimestamp.getHours(), testVisit.getVisitDate().getHours());
@@ -68,5 +63,32 @@ public class VisitTest {
   	Visit newTestVisit = new Visit(testStylist.getId(), testClient.getId(), "foo", "bar", testTimestamp);
   	newTestVisit.schedule();
   	assertTrue(Visit.all().get(0).equals(newTestVisit));
+  }
+
+  @Test 
+  public void find_findsSpecificInstanceOfVisit__visit() {
+  	Stylist testStylist = new Stylist("test name", "specialty", "example.wav");
+  	testStylist.save();
+  	Client testClient = new Client("test name", testStylist.getId());
+  	testClient.save();
+  	Timestamp testTimestamp = new Timestamp(new Date().getTime());
+  	Visit newTestVisit = new Visit(testStylist.getId(), testClient.getId(), "foo", "bar", testTimestamp);
+  	newTestVisit.schedule();
+  	assertEquals(Visit.find(testStylist.getId(), testClient.getId(), testTimestamp), newTestVisit);
+  }
+
+  @Test 
+  public void reSchedule_resetsDatetimeproperty_timestamp() {
+  	Stylist testStylist = new Stylist("test name", "specialty", "example.wav");
+  	testStylist.save();
+  	Client testClient = new Client("test name", testStylist.getId());
+  	testClient.save();
+		Timestamp testTimestamp = new Timestamp(new Date().getTime());
+		Visit newTestVisit = new Visit(testStylist.getId(), testClient.getId(), "foo", "bar", testTimestamp);
+		newTestVisit.schedule();
+		Timestamp updateTimestamp = new Timestamp(new Date().getTime() + 500);
+		newTestVisit.reSchedule(updateTimestamp);
+		Visit updatedVisit = Visit.find(newTestVisit.getStylistId(), newTestVisit.getClientId(), updateTimestamp);
+		assertTrue(updatedVisit.getVisitDate().after(testTimestamp));
   }
 }
