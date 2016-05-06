@@ -37,22 +37,33 @@ public class StylistTest {
   	assertEquals(testStylist, testStylistTwo);
   }
 
-  // @Test 
-  // public void getId_returnStylistId_int() {
-  // 	assertEquals(testStylist.getId(), 0);
-  // }
+  @Test 
+  public void getId_returnStylistId_int() {
+  	assertEquals(testStylist.getId(), 0);
+  }
 	
-	// @Test 
-	// public void getCreatedAt_returnStylistCreatedAt_Timestamp() {
-	// 	Timestamp testTimestamp = new Timestamp(new Date().getTime());
-	// 	assertEquals(testTimestamp.getHours(), testStylist.getCreatedAt().getHours());
-	// }
+	@Test 
+	public void getCreatedAt_returnStylistCreatedAt_Timestamp() {
+		Timestamp testTimestamp = new Timestamp(new Date().getTime());
+		assertEquals(testTimestamp.getHours(), testStylist.getCreatedAt().getHours());
+	}
 
-	// @Test 
-	// public void getUpdatedAt_returnStylistUpdatedAt_Timestamp() {
-	// 	Timestamp testTimestamp = new Timestamp(new Date().getTime());
-	// 	assertEquals(testTimestamp.getHours(), testStylist.getUpdatedAt().getHours());
-	// }
+	@Test 
+	public void getUpdatedAt_returnUpdatedAtInstantiatesSameAsCreatedAt_Timestamp() {
+		Timestamp testTimestamp = new Timestamp(new Date().getTime());
+		assertEquals(testTimestamp.getHours(), testStylist.getUpdatedAt().getHours());
+	}
+
+	@Test 
+	public void all_instantiatesAsEmptyListOfStylists_true() {
+		assertEquals(Stylist.all().size(), 0);
+	}
+
+	@Test 
+	public void save_savedInstanceOfStylist_true() {
+		testStylist.save();
+		assertTrue(Stylist.all().get(0).equals(testStylist));
+	}
 
 
 
