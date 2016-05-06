@@ -67,6 +67,15 @@ public Stylist getStylist() {
 		.executeAndFetchFirst(Stylist.class);
 	}
 }
+
+public List<Visit> getAppointments() {
+	try(Connection con = DB.sql2o.open()) {
+		String sql = "SELECT * FROM visits WHERE client_id=:id";
+		return con.createQuery(sql)
+		.addParameter("id", this.id)
+		.executeAndFetch(Visit.class);
+	}
+}
 // update
 public void updateName(String newNameValue) {
 	try(Connection con = DB.sql2o.open()) {
