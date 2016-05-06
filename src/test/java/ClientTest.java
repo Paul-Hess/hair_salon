@@ -16,30 +16,47 @@ public class ClientTest {
   	assertTrue(testClient instanceof Client);
   }
 
-  // @Test 
-  // public void getName_returnsClientName_String() {
-  // 	assertEquals(testClient.getName(), "test client");
-  // }
+  @Test 
+  public void getName_returnsClientName_String() {
+  	assertEquals(testClient.getName(), "test client");
+  }
 
-  // @Test 
-  // public void getId_returnsClientId_int() {
-  // 	assertEquals(testClient.getId(), 0);
-  // }
+  @Test 
+  public void getId_returnsClientId_int() {
+  	assertEquals(testClient.getId(), 0);
+  }
 
-  // @Test 
-  // public void getCreatedAt_returnsCreatedAt_Timestamp() {
-  // 	Timestamp testTimestamp = new Timestamp(new Date().getTime());
-  // 	assertEquals(testClient.getCreatedAt().getHours(), testTimestamp.getHours());
-  // }
+  @Test 
+  public void getCreatedAt_returnsCreatedAt_Timestamp() {
+  	Timestamp testTimestamp = new Timestamp(new Date().getTime());
+  	assertEquals(testClient.getCreatedAt().getHours(), testTimestamp.getHours());
+  }
 
-  // @Test 
-  // public void getUpdatedAt_instantiatesSameAsCreatedAt_Timestamp() {
-  // 	Timestamp testTimestamp = new Timestamp(new Date().getTime());
-  // 	assertEquals(testClient.getUpdatedAt().getHours(), testTimestamp.getHours());
-  // }
+  @Test 
+  public void getUpdatedAt_instantiatesSameAsCreatedAt_Timestamp() {
+  	Timestamp testTimestamp = new Timestamp(new Date().getTime());
+  	assertEquals(testClient.getUpdatedAt().getHours(), testTimestamp.getHours());
+  }
 
-  // @Test 
-  // public void getStylistId_returnsAssociatedStylistId_int() {
-  // 	assertEquals(testClient.getStylistId(), 0);
-  // }
+  @Test 
+  public void getStylistId_returnsAssociatedStylistId_int() {
+  	assertEquals(testClient.getStylistId(), 0);
+  }
+
+  @Test 
+  public void equals_returnTrueIfPropertiesAreTheSame_client() {
+  	Client testClientTwo = new Client("test client", 0);
+  	assertEquals(testClient, testClientTwo);
+  }
+
+  @Test 
+	public void all_instantiatesAsEmptyListOfClients_0() {
+		assertEquals(Client.all().size(), 0);
+	}
+
+	@Test 
+	public void save_savesInstanceOfClient_client() {
+		testClient.save();
+		assertEquals(Client.all().get(0), testClient);
+	}
 }

@@ -11,7 +11,8 @@ public class Stylist {
 		} else {
 			Stylist newStylist = (Stylist) otherStylist;
 			return this.getName().equals(newStylist.getName()) &&
-			this.getSpecialty().equals(newStylist.getSpecialty());
+			this.getSpecialty().equals(newStylist.getSpecialty()) && 
+			this.getId() == newStylist.getId();
 		}
 	}
 
