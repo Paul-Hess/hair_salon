@@ -4,8 +4,12 @@ Our Stylists:
 
 #if($stylists)
 	#foreach($stylist in $stylists)
+	<a class="stylist-link" href="stylist/$stylist.getId()">
 	<div class="stylist-intro">
 		<h3>$stylist.getName()</h3>
+		<p>An expert in: $stylist.getSpecialty()</p>
+		<img src="$stylist.getImage()" alt="image of stylist $stylist.getName()">
 	</div>
+	</a>
 	#end
 #end

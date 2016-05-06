@@ -1,0 +1,21 @@
+	<div class="stylist-main">
+		<h3>$stylist.getName()</h3>
+		<p>An expert in: $stylist.getSpecialty()</p>
+		<img src="$stylist.getImage()" alt="image of stylist $stylist.getName()">
+		<p>With us since: $stylist.getCreatedAt()</p>
+	</div>
+	
+	<form action="/stylist/$stylist.getId()/client/new" method="post">
+		<label for="new-name"></label>
+		<input id="new-name" name="new-name">
+		
+		<button type="submit" id="client-create">Sign up with this stylist!</button>
+	</form>
+
+	<div class="my-clients">
+#if($clients)
+	#foreach($client in $clients)
+		<a href="client/client.getId()">go to my page: $client.getName()</a>
+	#end
+#end
+</div>

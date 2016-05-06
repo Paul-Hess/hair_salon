@@ -47,5 +47,24 @@ public class AppTest extends FluentTest {
     assertThat(pageSource()).contains("test stylist");
   }
 
+  @Test 
+  public void stylistIndividualRoute() {
+    Stylist testStylist = new Stylist("test name", "specialty", "test.jpeg");
+    testStylist.save();
+     goTo("http://localhost:4567/");
+     click("h3", withText("test name"));
+     assertThat(pageSource()).contains("test.jpeg");
+  }
+
+  @Test 
+  public void addClientToStylist() {
+    Stylist testStylist = new Stylist("test name", "specialty", "test.jpeg");
+    testStylist.save();
+    goTo("http://localhost:4567/stylist/" + testStylist.getId());
+    fill("#new-name").with("test client");
+    submit("#client-create");
+    assertThat(pageSource()).contains("test client");
+  }
+
 
 }
