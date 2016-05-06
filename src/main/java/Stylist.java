@@ -15,8 +15,7 @@ public class Stylist {
 		}
 	}
 
-	// setters
-
+// setters
 	private int id;
 	private Timestamp created_at;
 	private Timestamp updated_at;
@@ -32,6 +31,7 @@ public class Stylist {
 		this.img_url = img_url;
 	}
 
+// create
 	public void save() {
 		String sql = "INSERT INTO stylists (created_at, updated_at, stylist_name, stylist_specialty, img_url) VALUES (:created_at, :updated_at, :stylist_name, :stylist_specialty, :img_url)";
 		try(Connection con = DB.sql2o.open()) {
@@ -45,8 +45,72 @@ public class Stylist {
 				.getKey();
 		}
 	}
+// read
+	public static List<Stylist> all() {
+		try(Connection con = DB.sql2o.open()) {
+			String sql = "SELECT id, created_at, updated_at, stylist_name, stylist_specialty, img_url FROM stylists";
+			return con.createQuery(sql)
+				.executeAndFetch(Stylist.class);
+		}
+	}
 
-
+	public static Stylist findById(int id) {
+		try(Connection con = DB.sql2o.open()) {
+			String sql = "SELECT * FROM stylists WHERE id=:id";
+			return con.createQuery(sql)
+				.addParameter("id", id)
+				.executeAndFetchFirst(Stylist.class);
+		}
+	}
+// update
+	public void update(String newNameValue, String newSpecialtyValue, String newImgValue) {
+		if(newNameValue.length() > 0) {
+			newNameValue = newNameValue;
+		} else {
+			newNameValue = this.getName();
+		}
+		if(newSpecialtyValue.length() > 0) {
+			newSpecialtyValue = newSpecialtyValue;
+		} else {
+			newSpecialtyValue = this.getSpecialty();
+		}
+		if (newImgValue.length() > 0) {
+			newImgValue = newImgValue;
+		} else {
+			newImgValue = this.getImage();
+		}
+		try(Connection con = DB.sql2o.open()) {
+			String sql = "UPDATE stylists SET stylist_name = :stylist_name, stylist_specialty = :stylist_specialty, img_url = :img_url, updated_at = :updated_at WHERE id=:id";
+			con.createQuery(sql)
+				.addParameter("id", this.id)
+				.addParameter("stylist_name", newNameValue)
+				.addParameter("stylist_specialty", newSpecialtyValue)
+				.addParameter("img_url", newImgValue)
+				.addParameter("updated_at", new Timestamp(new Date().getTime()))
+				.executeUpdate();
+		}
+	}
+// delete
+	public void remove() {
+		try(Connection con = DB.sql2o.open()) {
+			String deleteClientsQuery = "DELETE FROM clients WHERE stylist_id=:id";
+				con.createQuery(deleteClientsQuery)
+				.addParameter("id", this.id)
+				.executeUpdate();	
+		}
+		try(Connection con = DB.sql2o.open()) {
+			String deleteVisitsQuery = "DELETE FROM visits WHERE stylist_id=:id AND client_id=:id";
+			con.createQuery(deleteVisitsQuery)
+			.addParameter("id", this.id)
+			.executeUpdate();
+		}
+		try(Connection con = DB.sql2o.open()) {
+			String deleteStylistsQuery = "DELETE FROM stylists WHERE id=:id";
+			con.createQuery(deleteStylistsQuery)
+				.addParameter("id", this.id)
+				.executeUpdate();		
+		}
+	}
 	// getters
 	public String getName() {
 		return stylist_name;
@@ -72,11 +136,4 @@ public class Stylist {
 		return this.id;
 	}
 
-	public static List<Stylist> all() {
-		try(Connection con = DB.sql2o.open()) {
-			String sql = "SELECT id, created_at, updated_at, stylist_name, stylist_specialty, img_url FROM stylists";
-			return con.createQuery(sql)
-				.executeAndFetch(Stylist.class);
-		}
-	}
 }

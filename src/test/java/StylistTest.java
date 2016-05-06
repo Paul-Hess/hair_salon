@@ -31,11 +31,6 @@ public class StylistTest {
   	assertEquals(testStylist.getImage(), "example.jpg");
   }
 
-  @Test 
-  public void equals_returnTrueIfPropertiesAreTheSame_true() {
-  	Stylist testStylistTwo = new Stylist("stylist name", "specialty", "example.jpg");
-  	assertEquals(testStylist, testStylistTwo);
-  }
 
   @Test 
   public void getId_returnStylistId_int() {
@@ -54,6 +49,12 @@ public class StylistTest {
 		assertEquals(testTimestamp.getHours(), testStylist.getUpdatedAt().getHours());
 	}
 
+  @Test 
+  public void equals_returnTrueIfPropertiesAreTheSame_true() {
+  	Stylist testStylistTwo = new Stylist("stylist name", "specialty", "example.jpg");
+  	assertEquals(testStylist, testStylistTwo);
+  }
+
 	@Test 
 	public void all_instantiatesAsEmptyListOfStylists_true() {
 		assertEquals(Stylist.all().size(), 0);
@@ -65,6 +66,38 @@ public class StylistTest {
 		assertTrue(Stylist.all().get(0).equals(testStylist));
 	}
 
+	@Test
+	public void findById_returnInstanceOfStylistById_Stylist() {
+		testStylist.save();
+		assertTrue(Stylist.findById(testStylist.getId()).equals(testStylist));
+	}
 
+	@Test 
+	public void update_updatesInstanceOfStylistName_true() {
+		testStylist.save();
+		Timestamp testTimestamp = new Timestamp(new Date().getTime());
+		testStylist.update("new name", "", "");
+		Stylist updatedStylist =  Stylist.findById(testStylist.getId());
+		assertEquals(updatedStylist.getName(), "new name");
+		assertEquals(updatedStylist.getImage(), "example.jpg");
+		assertTrue(updatedStylist.getUpdatedAt().after(testTimestamp));
+	}
+
+	@Test 
+	public void update_updatesImgAndSpecialty_String() {
+		testStylist.save();	
+		testStylist.update("", "other", "other.jpeg");
+		Stylist updatedStylist =  Stylist.findById(testStylist.getId());
+		assertEquals(updatedStylist.getSpecialty(), "other");
+		assertEquals(updatedStylist.getImage(), "other.jpeg");
+		assertEquals(updatedStylist.getName(), "stylist name");
+	}
+
+	@Test 
+	public void remove_deletesInstanceOfStylist_true() {
+		testStylist.save();
+		testStylist.remove();
+		assertEquals(Stylist.all().size(), 0);
+	}
 
 }
