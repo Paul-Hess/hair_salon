@@ -15,6 +15,16 @@ public class Stylist {
 		this.img_url = img_url;
 	}
 
+	@Override public boolean equals(Object otherStylist) {
+		if(!(otherStylist instanceof Stylist)) {
+			return false;
+		} else {
+			Stylist newStylist = (Stylist) otherStylist;
+			return this.getName().equals(newStylist.getName()) &&
+			this.getSpecialty().equals(newStylist.getSpecialty());
+		}
+	}
+
 	// getters
 	public String getName() {
 		return stylist_name;

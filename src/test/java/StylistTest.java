@@ -5,7 +5,9 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class StylistTest {
+
 	private final Stylist testStylist = new Stylist("stylist name", "specialty", "example.jpg");
+
 	@Rule
   public DatabaseRule database = new DatabaseRule();
 
@@ -27,6 +29,12 @@ public class StylistTest {
   @Test 
   public void getImage_returnStylistImageUrl_String() {
   	assertEquals(testStylist.getImage(), "example.jpg");
+  }
+
+  @Test 
+  public void equals_returnTrueIfPropertiesAreTheSame_true() {
+  	Stylist testStylistTwo = new Stylist("stylist name", "specialty", "example.jpg");
+  	assertEquals(testStylist, testStylistTwo);
   }
 
   // @Test 
