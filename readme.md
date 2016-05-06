@@ -29,6 +29,8 @@ CREATE TABLE clients (id serial PRIMARY KEY, created_at timestamp NOT NULL, upda
 
 CREATE TABLE visits (id serial PRIMARY KEY, visit_datetime timestamp NOT NULL, stylist_id integer NOT NULL, client_id integer NOT NULL, style_description varchar, style_review varchar);
 
+(for the tests to pass): CREATE DATABASE hair_salon_test WITH TEMPLATE hair_salon;
+
 **or** simply:
 
 psql
@@ -36,6 +38,8 @@ psql
 CREATE DATABASE hair_salon;
 
 psql hair_salon < hair_salon.sql
+
+(for the tests to pass): CREATE DATABASE hair_salon_test WITH TEMPLATE hair_salon;
 ```
 * _Navigate back to the directory where this repository has been cloned and run gradle:_
 ```
