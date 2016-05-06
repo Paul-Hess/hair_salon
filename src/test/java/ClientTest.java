@@ -90,4 +90,12 @@ public class ClientTest {
 		testClient.remove();
 		assertEquals(Client.all().size(), 0);
 	}
+
+	@Test 
+	public void getStylist_returnStylistInstanceForClient_stylist() {
+		Stylist testStylist = new Stylist("test stylist", "specialty", "example.url");
+		testStylist.save();
+		Client newTest =  new Client("test name", testStylist.getId());
+		assertEquals(newTest.getStylist().getName(), "test stylist");
+	}
 }

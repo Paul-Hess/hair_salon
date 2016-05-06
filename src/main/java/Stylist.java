@@ -63,6 +63,24 @@ public class Stylist {
 				.executeAndFetchFirst(Stylist.class);
 		}
 	}
+
+	public static Stylist findByName(String name) {
+		try(Connection con = DB.sql2o.open()) {
+			String sql = "SELECT * FROM stylists WHERE stylist_name=:stylist_name";
+			return con.createQuery(sql)
+			.addParameter("stylist_name", name)
+			.executeAndFetchFirst(Stylist.class);
+		}
+	}
+
+	public List<Client> getClients() {
+		try(Connection con = DB.sql2o.open()) {
+			String sql = "SELECT * FROM clients WHERE stylist_id=:id";
+			return con.createQuery(sql)
+			.addParameter("id", this.id)
+			.executeAndFetch(Client.class);
+		}
+	}
 // update
 	public void update(String newNameValue, String newSpecialtyValue, String newImgValue) {
 		if(newNameValue.length() > 0) {

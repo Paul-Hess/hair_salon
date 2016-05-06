@@ -58,6 +58,15 @@ public static Client findById(int id) {
 		.executeAndFetchFirst(Client.class);
 	}
 }
+
+public Stylist getStylist() {
+	try(Connection con = DB.sql2o.open()) {
+		String sql = "SELECT * FROM stylists WHERE id=:stylist_id";
+		return con.createQuery(sql)
+		.addParameter("stylist_id", this.stylist_id)
+		.executeAndFetchFirst(Stylist.class);
+	}
+}
 // update
 public void updateName(String newNameValue) {
 	try(Connection con = DB.sql2o.open()) {

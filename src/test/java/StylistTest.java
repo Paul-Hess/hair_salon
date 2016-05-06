@@ -59,6 +59,14 @@ public class StylistTest {
 		assertEquals(Stylist.all().size(), 0);
 	}
 
+	@Test
+	public void getClients_returnsClientsForStylistInstance_List() {
+		testStylist.save();
+		Client testClient = new Client("test client", testStylist.getId());
+		testClient.save();
+		assertEquals(testStylist.getClients().get(0).getName(), "test client");
+	}
+
 	@Test 
 	public void save_savedInstanceOfStylist_true() {
 		testStylist.save();
@@ -69,6 +77,12 @@ public class StylistTest {
 	public void findById_returnInstanceOfStylistById_Stylist() {
 		testStylist.save();
 		assertTrue(Stylist.findById(testStylist.getId()).equals(testStylist));
+	}
+
+	@Test 
+	public void findByName_returnsInstanceOfStylistByName_Stylist() {
+		testStylist.save();
+		assertTrue(Stylist.findByName(testStylist.getName()).equals(testStylist));
 	}
 
 	@Test 
