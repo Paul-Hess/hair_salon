@@ -81,6 +81,15 @@ public class Stylist {
 			.executeAndFetch(Client.class);
 		}
 	}
+
+	public List<Visit> listVisitSchedule() {
+		try(Connection con = DB.sql2o.open()) {
+			String sql = "SELECT * FROM visits WHERE stylist_id=:id";
+			return con.createQuery(sql)
+			.addParameter("id", this.id)
+			.executeAndFetch(Visit.class);
+		}
+	}
 // update
 	public void update(String newNameValue, String newSpecialtyValue, String newImgValue) {
 		if(newNameValue.length() > 0) {

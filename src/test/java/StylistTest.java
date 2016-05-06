@@ -116,4 +116,16 @@ public class StylistTest {
 		assertEquals(Client.all().size(), 0);
 	}
 
+	@Test 
+	public void listVisitSchedule_returnAllVisitsForStylist_List() {
+		Stylist testStylist = new Stylist("test stylist", "specialty", "example.url");
+		testStylist.save();
+		Client newTest =  new Client("test name", testStylist.getId());
+		assertEquals(newTest.getStylist().getName(), "test stylist");
+		Timestamp testTimestamp = new Timestamp(new Date().getTime());
+		Visit testVisit = new Visit(testStylist.getId(), newTest.getId(), "mohawk", "add a review", testTimestamp);
+		testVisit.schedule();
+		assertEquals(testStylist.listVisitSchedule().get(0).getVisitDate(), testTimestamp);
+	}
+
 }

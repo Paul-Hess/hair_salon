@@ -106,8 +106,8 @@ public class ClientTest {
 		Client newTest =  new Client("test name", testStylist.getId());
 		assertEquals(newTest.getStylist().getName(), "test stylist");
 		Timestamp testTimestamp = new Timestamp(new Date().getTime());
-		Visit testVisit = new Visit(testStylist.getId(), testClient.getId(), "mohawk", "add a review", testTimestamp);
+		Visit testVisit = new Visit(testStylist.getId(), newTest.getId(), "mohawk", "add a review", testTimestamp);
 		testVisit.schedule();
-		assertEquals(testClient.getAppointments().get(0).getVisitDate(), testTimestamp);
+		assertEquals(newTest.getAppointments().get(0).getVisitDate(), testTimestamp);
 	}
 }
