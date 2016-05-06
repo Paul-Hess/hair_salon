@@ -1,0 +1,11 @@
+<a href="/admin">admin</a>
+
+Our Stylists:
+
+#if($stylists)
+	#foreach($stylist in $stylists)
+	<div class="stylist-intro">
+		<h3>$stylist.getName()</h3>
+	</div>
+	#end
+#end

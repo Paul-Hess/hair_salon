@@ -28,6 +28,24 @@ public class AppTest extends FluentTest {
   @Test
   public void rootTest() {
     goTo("http://localhost:4567/");
+    assertThat(pageSource()).contains("admin");
   }
+
+  @Test 
+  public void adminRoute() {
+    goTo("http://localhost:4567/admin");
+    assertThat(pageSource()).contains("add a new stylist profile here: ");
+  }
+
+  @Test 
+  public void stylistFormCreate() {
+    goTo("http://localhost:4567/admin");
+    fill("#stylist-name").with("test stylist");
+    fill("#specialty").with("test specialty");
+    fill("#img-url").with("local.jpg");
+    submit("#stylist-create");
+    assertThat(pageSource()).contains("test stylist");
+  }
+
 
 }
