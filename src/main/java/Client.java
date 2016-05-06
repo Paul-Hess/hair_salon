@@ -42,13 +42,59 @@ public void save() {
 			.getKey();	
 	}
 }
-
+// read
 public static List<Client> all() {
 	try(Connection con = DB.sql2o.open()) {
 		String sql = "SELECT id, created_at, updated_at, client_name, stylist_id FROM clients";
 		return con.createQuery(sql)
 		.executeAndFetch(Client.class);
 	}	
+}
+public static Client findById(int id) {
+	try(Connection con = DB.sql2o.open()) {
+		String sql = "SELECT * FROM clients WHERE id=:id";
+		return con.createQuery(sql)
+		.addParameter("id", id)
+		.executeAndFetchFirst(Client.class);
+	}
+}
+// update
+public void updateName(String newNameValue) {
+	try(Connection con = DB.sql2o.open()) {
+		String sql = "UPDATE clients SET client_name = :client_name, updated_at = :updated_at WHERE id=:id";
+		con.createQuery(sql)
+			.addParameter("id", this.id)
+			.addParameter("updated_at", new Timestamp(new Date().getTime()))
+			.addParameter("client_name", newNameValue)
+			.executeUpdate();
+	}
+}
+
+public void updateStylist(int newStylistId) {
+	try(Connection con = DB.sql2o.open()) {
+		String sql = "UPDATE clients SET stylist_id = :stylist_id, updated_at = :updated_at WHERE id=:id";
+		con.createQuery(sql)
+		.addParameter("id", this.id)
+		.addParameter("updated_at", new Timestamp(new Date().getTime()))
+		.addParameter("stylist_id", newStylistId)
+		.executeUpdate();
+	}
+}
+
+// delete
+public void remove() {
+	String deleteVisitsQuery = "DELETE FROM visits WHERE client_id=:id";
+	try(Connection con = DB.sql2o.open()) {
+		con.createQuery(deleteVisitsQuery)
+		.addParameter("id", this.id)
+		.executeUpdate();
+	}
+	String deleteClientQuery = "DELETE FROM clients WHERE id=:id";
+	try(Connection con = DB.sql2o.open()) {
+		con.createQuery(deleteClientQuery)
+		.addParameter("id", this.id)
+		.executeUpdate();
+	}
 }
 
 // getters

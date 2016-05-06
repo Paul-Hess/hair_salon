@@ -59,4 +59,35 @@ public class ClientTest {
 		testClient.save();
 		assertEquals(Client.all().get(0), testClient);
 	}
+
+	@Test 
+	public void findById_returnsClientSearchedFor_client() {
+		testClient.save();
+		assertEquals(Client.findById(testClient.getId()), testClient);
+	}
+
+	@Test 
+	public void update_updatesName_String() {
+		testClient.save();
+		Timestamp testTimestamp = testClient.getUpdatedAt();	
+		testClient.updateName("new name");
+		Client updatedClient =  Client.findById(testClient.getId());
+		assertEquals(updatedClient.getName(), "new name");
+		assertTrue(updatedClient.getUpdatedAt().after(testTimestamp));
+	}
+
+	@Test 
+	public void update_updatesStylist_int() {
+		testClient.save();
+		testClient.updateStylist(2);
+		Client updatedClient = Client.findById(testClient.getId());
+		assertEquals(updatedClient.getStylistId(), 2);
+	}
+
+	@Test 
+	public void remove_deletesInstanceOfclient_0() {
+		testClient.save();
+		testClient.remove();
+		assertEquals(Client.all().size(), 0);
+	}
 }

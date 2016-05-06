@@ -92,24 +92,22 @@ public class Stylist {
 		}
 	}
 // delete
-	public void remove() {
+	public void remove() {	
+		System.out.println(this.getId());
+		System.out.println(Client.all().get(0).getStylistId());
 		try(Connection con = DB.sql2o.open()) {
 			String deleteClientsQuery = "DELETE FROM clients WHERE stylist_id=:id";
-				con.createQuery(deleteClientsQuery)
-				.addParameter("id", this.id)
-				.executeUpdate();	
-		}
-		try(Connection con = DB.sql2o.open()) {
+			con.createQuery(deleteClientsQuery)
+			.addParameter("id", this.id)
+			.executeUpdate();	
 			String deleteVisitsQuery = "DELETE FROM visits WHERE stylist_id=:id AND client_id=:id";
 			con.createQuery(deleteVisitsQuery)
 			.addParameter("id", this.id)
 			.executeUpdate();
-		}
-		try(Connection con = DB.sql2o.open()) {
 			String deleteStylistsQuery = "DELETE FROM stylists WHERE id=:id";
 			con.createQuery(deleteStylistsQuery)
-				.addParameter("id", this.id)
-				.executeUpdate();		
+			.addParameter("id", this.id)
+			.executeUpdate();	
 		}
 	}
 	// getters

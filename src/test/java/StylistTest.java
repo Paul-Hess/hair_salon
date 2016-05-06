@@ -7,7 +7,6 @@ import java.util.Date;
 public class StylistTest {
 
 	private final Stylist testStylist = new Stylist("stylist name", "specialty", "example.jpg");
-
 	@Rule
   public DatabaseRule database = new DatabaseRule();
 
@@ -75,7 +74,7 @@ public class StylistTest {
 	@Test 
 	public void update_updatesInstanceOfStylistName_true() {
 		testStylist.save();
-		Timestamp testTimestamp = new Timestamp(new Date().getTime());
+		Timestamp testTimestamp = testStylist.getUpdatedAt();
 		testStylist.update("new name", "", "");
 		Stylist updatedStylist =  Stylist.findById(testStylist.getId());
 		assertEquals(updatedStylist.getName(), "new name");
@@ -96,8 +95,11 @@ public class StylistTest {
 	@Test 
 	public void remove_deletesInstanceOfStylist_true() {
 		testStylist.save();
+		Client testClient = new Client("test client", testStylist.getId());
+		testClient.save();
 		testStylist.remove();
 		assertEquals(Stylist.all().size(), 0);
+		assertEquals(Client.all().size(), 0);
 	}
 
 }
