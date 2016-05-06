@@ -23,7 +23,7 @@ psql
 
 CREATE DATABASE hair_salon;
 
-CREATE TABLE stylists (id serial PRIMARY KEY, created_at timestamp NOT NULL, updated_at timestamp, stylist_name varchar NOT NULL UNIQUE, stylist_specialty varchar NOT NULL);
+CREATE TABLE stylists (id serial PRIMARY KEY, created_at timestamp NOT NULL, updated_at timestamp, stylist_name varchar NOT NULL UNIQUE, stylist_specialty varchar NOT NULL, img_url varchar NOT NULL);
 
 CREATE TABLE clients (id serial PRIMARY KEY, created_at timestamp NOT NULL, updated_at timestamp, client_name varchar NOT NULL, stylist_id integer NOT NULL);
 
