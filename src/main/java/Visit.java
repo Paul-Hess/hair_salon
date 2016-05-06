@@ -89,7 +89,18 @@ public class Visit {
 
 
 	// delete
+	public void remove() {
+		try(Connection con = DB.sql2o.open()) {
+			String deleteVisit = "DELETE FROM visits WHERE client_id=:client_id AND stylist_id=:stylist_id AND visit_datetime=:visit_datetime";
+			con.createQuery(deleteVisit)
+			.addParameter("client_id", this.client_id)
+			.addParameter("stylist_id", this.stylist_id)
+			.addParameter("visit_datetime", visit_datetime)
+			.executeUpdate();
+		}
+	}
 
+// getters
 	public Timestamp getVisitDate() {
 		return this.visit_datetime;
 	}

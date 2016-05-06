@@ -91,4 +91,11 @@ public class VisitTest {
 		Visit updatedVisit = Visit.find(newTestVisit.getStylistId(), newTestVisit.getClientId(), updateTimestamp);
 		assertTrue(updatedVisit.getVisitDate().after(testTimestamp));
   }
+
+  @Test 
+  public void remove() {
+  	testVisit.schedule();
+  	testVisit.remove();
+  	assertEquals(Visit.all().size(), 0);
+  }
 }
