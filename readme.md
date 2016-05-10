@@ -27,7 +27,7 @@ CREATE TABLE stylists (id serial PRIMARY KEY, created_at timestamp NOT NULL, upd
 
 CREATE TABLE clients (id serial PRIMARY KEY, created_at timestamp NOT NULL, updated_at timestamp, client_name varchar NOT NULL, stylist_id integer NOT NULL);
 
-CREATE TABLE visits (id serial PRIMARY KEY, visit_datetime timestamp NOT NULL, stylist_id integer NOT NULL, client_id integer NOT NULL, style_description varchar, style_review varchar);
+CREATE TABLE visits (stylist_id integer NOT NULL, client_id integer NOT NULL, style_description varchar, style_review varchar, created_at timestamp NOT NULL, updated_at timestamp, visit_datetime timestamp);
 
 (for the tests to pass): CREATE DATABASE hair_salon_test WITH TEMPLATE hair_salon;
 
