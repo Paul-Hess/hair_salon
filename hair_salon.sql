@@ -113,7 +113,7 @@ CREATE TABLE visits (
     style_review character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    visit_datetime timestamp without time zone NOT NULL
+    visit_datetime timestamp without time zone
 );
 
 
@@ -138,6 +138,7 @@ ALTER TABLE ONLY stylists ALTER COLUMN id SET DEFAULT nextval('stylists_id_seq':
 --
 
 COPY clients (id, created_at, updated_at, client_name, stylist_id) FROM stdin;
+4	2016-05-10 10:33:58.919	2016-05-10 10:33:58.919	bob 	1
 \.
 
 
@@ -145,7 +146,7 @@ COPY clients (id, created_at, updated_at, client_name, stylist_id) FROM stdin;
 -- Name: clients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: home
 --
 
-SELECT pg_catalog.setval('clients_id_seq', 1, false);
+SELECT pg_catalog.setval('clients_id_seq', 4, true);
 
 
 --
@@ -153,6 +154,8 @@ SELECT pg_catalog.setval('clients_id_seq', 1, false);
 --
 
 COPY stylists (id, created_at, updated_at, stylist_name, stylist_specialty, img_url) FROM stdin;
+1	2016-05-06 12:29:29.061	2016-05-06 12:29:29.061	fill murray	baldies	http://fillmurray.com/200/300
+2	2016-05-06 15:34:36.371	2016-05-06 15:34:36.371	nics cagey	straight razor shaves	http://www.placecage.com/g/200/300
 \.
 
 
@@ -160,7 +163,7 @@ COPY stylists (id, created_at, updated_at, stylist_name, stylist_specialty, img_
 -- Name: stylists_id_seq; Type: SEQUENCE SET; Schema: public; Owner: home
 --
 
-SELECT pg_catalog.setval('stylists_id_seq', 1, false);
+SELECT pg_catalog.setval('stylists_id_seq', 2, true);
 
 
 --
@@ -168,6 +171,7 @@ SELECT pg_catalog.setval('stylists_id_seq', 1, false);
 --
 
 COPY visits (stylist_id, client_id, style_description, style_review, created_at, updated_at, visit_datetime) FROM stdin;
+1	4	mohawk	you can update this record after your visit and a your review will appear here.	2016-05-10 10:34:34.569	2016-05-10 10:34:34.569	2016-05-18 14:25:00
 \.
 
 
