@@ -85,7 +85,7 @@ public class Stylist {
 
 	public List<Visit> listVisitSchedule() {
 		try(Connection con = DB.sql2o.open()) {
-			String sql = "SELECT * FROM visits WHERE stylist_id=:id";
+			String sql = "SELECT * FROM visits WHERE stylist_id=:id ORDER BY visit_datetime DESC";
 			return con.createQuery(sql)
 			.addParameter("id", this.id)
 			.executeAndFetch(Visit.class);

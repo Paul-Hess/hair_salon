@@ -11,7 +11,6 @@ public class App {
 
     get("/", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
-
       if(Stylist.all().size() > 0) {
       	model.put("stylists", Stylist.all());
       }	
@@ -20,9 +19,9 @@ public class App {
     }, new VelocityTemplateEngine());
 
     get("/admin", (request, response) -> {
-			Map<String, Object> model = new HashMap<String, Object>();
-      model.put("template", "templates/admin.vtl");
-      return new ModelAndView(model, layout);
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put("template", "templates/admin.vtl");
+        return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
     get("/stylist/:stylist_id", (request, response) -> {
@@ -33,6 +32,10 @@ public class App {
     	if(currentStylist.getClients().size() > 0) {
     		model.put("clients", currentStylist.getClients());
     	}
+
+        if(currentStylist.listVisitSchedule().size() > 0) {
+            model.put("visits", currentStylist.listVisitSchedule());
+        }
     	model.put("template", "templates/stylist.vtl");
     	return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -50,7 +53,6 @@ public class App {
             model.put("visits", currentClient.getAppointments());
         }
     	model.put("template", "templates/client.vtl");
-
     	return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 

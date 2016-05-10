@@ -1,15 +1,17 @@
 <a href="/admin">admin</a>
 
-Our Stylists:
+<h2>Our Stylists:</h2>
 
-#if($stylists)
-	#foreach($stylist in $stylists)
-	<a class="stylist-link" href="stylist/$stylist.getId()">
-	<div class="stylist-intro">
-		<h3>$stylist.getName()</h3>
-		<p>An expert in: $stylist.getSpecialty()</p>
-		<img src="$stylist.getImage()" alt="image of stylist $stylist.getName()">
-	</div>
-	</a>
+<div class="stylist-page">
+	#if($stylists)
+		#foreach($stylist in $stylists)
+		<div class="stylist-intro">
+			<a class="stylist-link" href="stylist/$stylist.getId()">
+				<h3>$stylist.getName()</h3>
+				<p>An expert in: $stylist.getSpecialty()</p>
+				<img src="$stylist.getImage()" alt="image of stylist $stylist.getName()">
+			</a>
+		</div>
+		#end
 	#end
-#end
+</div>

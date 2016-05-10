@@ -20,6 +20,14 @@
 #end
 </div>
 
+#if($visits)
+<h4>my schedule:</h4>
+#foreach($visit in $visits) 
+	<p>$visit.getDescription()</p>
+	<p>$visit.getReview()</p>
+	<p>$visit.getVisitDate()</p>
+	#end
+#end
 
 <h3> Stylist $stylist.getName(): edit your info here:</h3>
 <form action="/stylist/$stylist.getId()/update" method="post">
