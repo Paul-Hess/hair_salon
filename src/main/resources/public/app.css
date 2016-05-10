@@ -373,10 +373,19 @@ html {
  */
 a {
   color: #e50050;
-  text-decoration: none; }
+  text-decoration: none;
+  text-align: center;
+  border: 0.3px solid #e50050;
+  border-radius: 3px;
+  margin: auto;
+  background: rgba(229, 0, 80, 0.4);
+  transition: all .3s linear; }
   a:hover, a:active, a:focus {
     color: #222222;
     text-decoration: underline; }
+
+h3, h2, p, h4, h1 {
+  text-align: center; }
 
 /**
  * Basic typography style for copy text
@@ -440,6 +449,17 @@ body {
   position: absolute;
   width: 1px; }
 
+form {
+  background: rgba(229, 0, 80, 0.8);
+  border-radius: 8px;
+  width: 30vw;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  form label, form input {
+    width: 80%; }
+
 .stylist-page {
   display: flex;
   justify-content: space-around;
@@ -457,5 +477,35 @@ body {
   flex-direction: column; }
   .stylist-intro img {
     max-width: 100%; }
+
+.stylist-main {
+  width: 20vw;
+  height: 30vw;
+  border: 4px solid #e50050;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column; }
+  .stylist-main img {
+    max-width: 100%; }
+
+.client {
+  width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  flex-wrap: no-wrap; }
+
+.client-visits {
+  border: 4px solid #e50050;
+  border-radius: 4px;
+  width: 49%;
+  min-height: 100vh;
+  background: rgba(229, 0, 80, 0.4);
+  border-radius: 8px; }
+
+.client-account {
+  border: 4px solid #e50050;
+  border-radius: 4px;
+  width: 49%;
+  min-height: 100vh; }
 
 /*# sourceMappingURL=app.css.map */

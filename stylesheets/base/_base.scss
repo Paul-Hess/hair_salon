@@ -25,9 +25,18 @@ html {
 a {
   color: $brand-color;
   text-decoration: none;
-
+  text-align: center;
+  border: .3px solid $brand-color;
+  border-radius: 3px;
+  margin: auto;
+  background: rgba($brand-color, .4);
+	transition: all .3s linear;
   @include on-event {
     color: $text-color;
     text-decoration: underline;
   }
+}
+h3, h2, p, h4, h1 {
+	text-align: center;
+
 }

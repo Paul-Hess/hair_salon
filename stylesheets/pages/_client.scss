@@ -1,0 +1,22 @@
+.client {
+	width: 100vw;
+	max-height: 100vh;
+	display: flex;
+	flex-wrap: no-wrap;
+}
+
+.client-visits {
+	border: 4px solid $brand-color;
+	border-radius: 4px;
+	width: 49%;
+	min-height: 100vh;
+	background: rgba($brand-color, .4);
+	border-radius: 8px;
+}
+
+.client-account {
+	border: 4px solid $brand-color;
+	border-radius: 4px;
+	width: 49%;
+	min-height: 100vh;
+}

@@ -1,0 +1,12 @@
+form {
+	background: rgba($brand-color, .8);
+	border-radius: 8px;
+	width: 30vw;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	label, input {
+		width: 80%;
+	}
+}
