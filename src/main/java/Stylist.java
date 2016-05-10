@@ -1,4 +1,4 @@
-	import java.util.Date;
+import java.util.Date;
 import java.sql.Timestamp;
 import org.sql2o.*;
 import java.util.List;
@@ -23,6 +23,7 @@ public class Stylist {
 	private String stylist_name;
 	private String stylist_specialty;
 	private String img_url;
+
 	
 	public Stylist(String stylist_name, String stylist_specialty, String img_url) {
 		this.created_at = new Timestamp(new Date().getTime());
@@ -120,14 +121,16 @@ public class Stylist {
 	}
 // delete
 	public void remove() {	
+		int currentId = this.id;
 		try(Connection con = DB.sql2o.open()) {
-			String deleteClientsQuery = "DELETE FROM clients WHERE stylist_id=:id";
-			con.createQuery(deleteClientsQuery)
-			.addParameter("id", this.id)
+			String moveClientsQuery = "UPDATE clients SET stylist_id=:newId WHERE stylist_id=:id";
+			con.createQuery(moveClientsQuery)
+			.addParameter("id", currentId)
+			.addParameter("newId", 0)
 			.executeUpdate();	
-			String deleteVisitsQuery = "DELETE FROM visits WHERE stylist_id=:id AND client_id=:id";
+			String deleteVisitsQuery = "DELETE FROM visits WHERE stylist_id=:stylist_id";
 			con.createQuery(deleteVisitsQuery)
-			.addParameter("id", this.id)
+			.addParameter("stylist_id", this.id)
 			.executeUpdate();
 			String deleteStylistsQuery = "DELETE FROM stylists WHERE id=:id";
 			con.createQuery(deleteStylistsQuery)

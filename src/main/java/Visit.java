@@ -2,6 +2,11 @@ import java.util.Date;
 import java.sql.Timestamp;
 import org.sql2o.*;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.util.Locale;
+import java.text.ParseException;
+
 
 public class Visit {
 
@@ -26,9 +31,11 @@ public class Visit {
 	private Timestamp created_at;
 	private Timestamp updated_at;
 	private Timestamp visit_datetime;
+	private Date newDate;
 
-	public Visit(int stylist_id, int client_id, String style_description, String style_review, Timestamp visit_datetime) {
-		this.visit_datetime = visit_datetime;
+
+
+	public Visit(int stylist_id, int client_id, String style_description, String style_review) {
 		this.style_description = style_description;
 		this.style_review = style_review;
 		this.stylist_id = stylist_id;
@@ -54,6 +61,20 @@ public class Visit {
 		}
 	}
 
+	public void getDateFromString(String stringDate) {
+		try {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			this.newDate = formatter.parse(stringDate);
+			Timestamp newTime = new Timestamp(this.newDate.getTime());
+			this.visit_datetime = newTime;
+			System.out.println(newTime);
+			System.out.println(this.visit_datetime);
+		} catch(ParseException pe) {
+				String error = pe.getMessage();
+		}
+
+	}
+
 	//read 
 	public static List<Visit> all() {
 		try(Connection con = DB.sql2o.open()) {
@@ -75,13 +96,14 @@ public class Visit {
 	}
 
 	// update
-	public void reSchedule(Timestamp newDatetime) {
+	public void reSchedule(String newDatetime) {
+		this.getDateFromString(newDatetime);
 		try(Connection con = DB.sql2o.open()) {
-			String sql = "UPDATE visits SET visit_datetime=:new_visit_datetime WHERE stylist_id=:stylist_id AND client_id=:client_id AND visit_datetime=:old_visit_datetime";
+			String sql = "UPDATE visits SET visit_datetime=:new_visit_datetime WHERE stylist_id=:stylist_id AND client_id=:client_id AND created_at=:created_at";
 			con.createQuery(sql)
-			.addParameter("new_visit_datetime", newDatetime)
+			.addParameter("new_visit_datetime", this.visit_datetime)
 			.addParameter("stylist_id", this.stylist_id)
-			.addParameter("old_visit_datetime", this.visit_datetime)
+			.addParameter("created_at", this.created_at)
 			.addParameter("client_id", this.client_id)
 			.executeUpdate();
 		}

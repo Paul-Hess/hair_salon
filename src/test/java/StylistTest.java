@@ -111,9 +111,14 @@ public class StylistTest {
 		testStylist.save();
 		Client testClient = new Client("test client", testStylist.getId());
 		testClient.save();
+		Visit testVisit = new Visit(testStylist.getId(), testClient.getId(), "hawkmo", "add a review");
+		String inputTime = "2016-05-10 06:45:00:00";
+		testVisit.getDateFromString(inputTime);
+		testVisit.schedule();
 		testStylist.remove();
 		assertEquals(Stylist.all().size(), 0);
-		assertEquals(Client.all().size(), 0);
+		assertEquals(testStylist.getClients().size(), 0);
+		assertEquals(testStylist.listVisitSchedule().size(), 0);
 	}
 
 	@Test 
@@ -121,10 +126,11 @@ public class StylistTest {
 		Stylist testStylist = new Stylist("test stylist", "specialty", "example.url");
 		testStylist.save();
 		Client newTest =  new Client("test name", testStylist.getId());
-		assertEquals(newTest.getStylist().getName(), "test stylist");
-		Timestamp testTimestamp = new Timestamp(new Date().getTime());
-		Visit testVisit = new Visit(testStylist.getId(), newTest.getId(), "mohawk", "add a review", testTimestamp);
+		Visit testVisit = new Visit(testStylist.getId(), newTest.getId(), "mohawk", "add a review");
+		String inputTime = "2016-05-10 06:45:00:00";
+		testVisit.getDateFromString(inputTime);
 		testVisit.schedule();
+		Timestamp testTimestamp = testVisit.getVisitDate();
 		assertEquals(testStylist.listVisitSchedule().get(0).getVisitDate(), testTimestamp);
 	}
 

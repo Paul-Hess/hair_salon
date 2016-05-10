@@ -88,7 +88,7 @@ public class AppTest extends FluentTest {
   }
 
   @Test 
-  public void updateClient() {
+  public void updateClientName() {
     Stylist testStylist = new Stylist("test name", "specialty", "test.jpeg");
     testStylist.save();
     goTo("http://localhost:4567/stylist/" + testStylist.getId());
@@ -100,5 +100,57 @@ public class AppTest extends FluentTest {
     assertThat(pageSource()).contains("new client name");
   }
 
+  @Test 
+  public void updateClientStylist() {
+    Stylist testStylist = new Stylist("test name", "specialty", "test.jpeg");
+    testStylist.save();
+    Stylist testStylist2 = new Stylist("test name2", "specialty2", "test.jpeg");
+    testStylist2.save();
+    goTo("http://localhost:4567/stylist/" + testStylist.getId());
+    fill("#new-name").with("other client");
+    submit("#client-create");
+    click("a", withText("go to my page: other client"));
+    fillSelect("#new-stylist").withIndex(1);
+    submit("#client-stylist");
+    assertThat(pageSource()).contains("test name2");
+  }
+
+  @Test 
+  public void deleteClientRecord() {
+    Stylist testStylist = new Stylist("test name", "specialty", "test.png");
+    testStylist.save();
+    Client testClient = new Client("client name", testStylist.getId());
+    String url = String.format("http://localhost:4567/stylist/%d/client/%d", testStylist.getId(), testClient.getId());
+    goTo(url);
+    submit("#account-delete");
+    goTo("http://localhost:4567/stylist/" + testStylist.getId());
+    assertThat(pageSource()).doesNotContain("client name");
+  }
+
+  @Test 
+  public void deleteStylistRecord() {
+    Stylist testStylist = new Stylist("test name", "specialty", "test.png");
+    testStylist.save();
+    String url = String.format("http://localhost:4567/stylist/%d", testStylist.getId());
+    goTo(url);
+    submit("#stylist-delete");
+    assertThat(pageSource()).doesNotContain("test name");
+  }
+
+  @Test 
+  public void createVisit() {
+    Stylist testStylist = new Stylist("test name", "specialty", "test.png");
+    testStylist.save();
+    Client testClient = new Client("test client", testStylist.getId());
+    testClient.save();
+    String url = String.format("http://localhost:4567/stylist/%d/client/%d", testStylist.getId(), testClient.getId());
+    goTo(url);
+    fill("#description").with("liberty spikes");
+    fill("#date-general").with("2016-05-10");
+    fill("#date-hour").with("14");
+    fill("#date-minutes").with("30");
+    submit("#create-visit");
+    assertThat(pageSource()).contains("liberty spikes");
+  }
 
 }

@@ -9,7 +9,7 @@ public class VisitTest {
 	@Rule
   public DatabaseRule database = new DatabaseRule();
 
-  private final Visit testVisit = new Visit(0, 1, "description", "review", new Timestamp(new Date().getTime()));
+  private final Visit testVisit = new Visit(0, 1, "description", "review");
 
   @Test 
   public void visit_instantiatesCorrectly_true() {
@@ -17,9 +17,12 @@ public class VisitTest {
   }	
 
   @Test 
-  public void getDate_returnsDateTimeOfVisit_timestamp() {
-  	Timestamp testTimestamp = new Timestamp(new Date().getTime());
-  	assertEquals(testTimestamp.getHours(), testVisit.getVisitDate().getHours());
+  public void getDateFromString_setsDateTimeToTimestamp_timesatamp() {
+    Timestamp testTimestamp = new Timestamp(new Date().getTime());
+    String inputTime = "2016-05-10 08:45:00:00";
+    Visit testVisit = new Visit(1, 0, "description", "review");
+    testVisit.getDateFromString(inputTime);
+    assertEquals(testVisit.getVisitDate().getDay(), testTimestamp.getDay());
   }
 
   @Test 
@@ -49,7 +52,7 @@ public class VisitTest {
 
   @Test 
   public void equals_overridesAndReturnsTrueWhenPropertiesAreTheSame_true() {
-  	Visit testVisitTwo = new Visit(0, 1, "description", "review", new Timestamp(new Date().getTime()));
+  	Visit testVisitTwo = new Visit(0, 1, "description", "review");
   	assertEquals(testVisit, testVisitTwo);
   }
 
@@ -59,8 +62,9 @@ public class VisitTest {
   	testStylist.save();
   	Client testClient = new Client("test name", testStylist.getId());
   	testClient.save();
-  	Timestamp testTimestamp = new Timestamp(new Date().getTime());
-  	Visit newTestVisit = new Visit(testStylist.getId(), testClient.getId(), "foo", "bar", testTimestamp);
+  	Visit newTestVisit = new Visit(testStylist.getId(), testClient.getId(), "foo", "bar");
+    String inputTime = "2016-05-10 08:45:00:00";
+    newTestVisit.getDateFromString(inputTime);
   	newTestVisit.schedule();
   	assertTrue(Visit.all().get(0).equals(newTestVisit));
   }
@@ -71,8 +75,10 @@ public class VisitTest {
   	testStylist.save();
   	Client testClient = new Client("test name", testStylist.getId());
   	testClient.save();
-  	Timestamp testTimestamp = new Timestamp(new Date().getTime());
-  	Visit newTestVisit = new Visit(testStylist.getId(), testClient.getId(), "foo", "bar", testTimestamp);
+    String inputTime = "2016-05-10 08:45:00:00";
+    Visit newTestVisit = new Visit(testStylist.getId(), testClient.getId(), "foo", "bar");
+    newTestVisit.getDateFromString(inputTime);
+    Timestamp testTimestamp = newTestVisit.getVisitDate();
   	newTestVisit.schedule();
   	assertEquals(Visit.find(testStylist.getId(), testClient.getId(), testTimestamp), newTestVisit);
   }
@@ -83,17 +89,21 @@ public class VisitTest {
   	testStylist.save();
   	Client testClient = new Client("test name", testStylist.getId());
   	testClient.save();
-		Timestamp testTimestamp = new Timestamp(new Date().getTime());
-		Visit newTestVisit = new Visit(testStylist.getId(), testClient.getId(), "foo", "bar", testTimestamp);
-		newTestVisit.schedule();
-		Timestamp updateTimestamp = new Timestamp(new Date().getTime() + 500);
-		newTestVisit.reSchedule(updateTimestamp);
-		Visit updatedVisit = Visit.find(newTestVisit.getStylistId(), newTestVisit.getClientId(), updateTimestamp);
+		Visit newTestVisit = new Visit(testStylist.getId(), testClient.getId(), "foo", "bar");
+    String inputTime = "2016-05-10 06:45:00:00";
+    newTestVisit.getDateFromString(inputTime);
+    newTestVisit.schedule();
+    Timestamp testTimestamp = newTestVisit.getVisitDate();
+    String inputTime2 = "2016-05-11 08:45:00:00";
+		newTestVisit.reSchedule(inputTime2);
+		Visit updatedVisit = Visit.find(newTestVisit.getStylistId(), newTestVisit.getClientId(), newTestVisit.getVisitDate());
 		assertTrue(updatedVisit.getVisitDate().after(testTimestamp));
   }
 
   @Test 
   public void remove() {
+    String inputTime = "2016-05-10 06:45:00:00";
+    testVisit.getDateFromString(inputTime);
   	testVisit.schedule();
   	testVisit.remove();
   	assertEquals(Visit.all().size(), 0);

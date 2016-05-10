@@ -105,9 +105,11 @@ public class ClientTest {
 		testStylist.save();
 		Client newTest =  new Client("test name", testStylist.getId());
 		assertEquals(newTest.getStylist().getName(), "test stylist");
-		Timestamp testTimestamp = new Timestamp(new Date().getTime());
-		Visit testVisit = new Visit(testStylist.getId(), newTest.getId(), "mohawk", "add a review", testTimestamp);
+		Visit testVisit = new Visit(testStylist.getId(), newTest.getId(), "mohawk", "add a review");
+		String inputTime = "2016-05-10 06:45:00:00";
+		testVisit.getDateFromString(inputTime);
 		testVisit.schedule();
+		Timestamp testTimestamp = testVisit.getVisitDate();
 		assertEquals(newTest.getAppointments().get(0).getVisitDate(), testTimestamp);
 	}
 }

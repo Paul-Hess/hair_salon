@@ -12,7 +12,7 @@
 		<button type="submit" id="client-create">Sign up with this stylist!</button>
 	</form>
 
-	<div class="my-clients">
+<div class="my-clients">
 #if($clients)
 	#foreach($client in $clients)
 		<a href="/stylist/$stylist.getId()/client/$client.getId()">go to my page: $client.getName()</a>
@@ -20,15 +20,22 @@
 #end
 </div>
 
+
+<h3> Stylist $stylist.getName(): edit your info here:</h3>
 <form action="/stylist/$stylist.getId()/update" method="post">
-	<label for="stylist-name">Name: </label>
+	<label for="stylist-name">Edit Name: </label>
 	<input id="stylist-name" name="stylist-name" type="text">
 	
-	<label for="specialty">Specialty: </label>
+	<label for="specialty">Edit Specialty: </label>
 	<input id="specialty" name="specialty" type="text">
 
-	<label for="img-url">Stylist Photo url: </label>
+	<label for="img-url">Edit stylist Photo url: </label>
 	<input id="img-url" name="img-url" type="text">
 	
 	<button type="submit" id="stylist-update">Submit</button>
+</form>
+
+<h3> remove my stylist account </h3>
+<form action="/stylist/$stylist.getId()/delete" method="post">
+	<button type="submit" id="stylist-delete">Delete</button>
 </form>

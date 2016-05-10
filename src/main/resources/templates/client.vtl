@@ -1,7 +1,49 @@
 <H2>$client.getName()</H2>
+
+#if($visits)
+	<h4>my upcoming stylist visits</h4>
+	#foreach($visit in $visits)
+		<p>$visit.getVisitDate()</p>
+		<p>$visit.getDescription()</p>
+		<p>$visit.getReview()</p>
+	#end
+#end
+<p>need to change your name? </p>
 <form action="/stylist/$stylist.getId()/client/$client.getId()/updatename" method="post">
 		<label for="new-name">new name: </label>
 		<input id="new-name" name="new-name">
 		
 		<button type="submit" id="client-update">update your name</button>
+</form>
+
+<p>wnat to switch to another stylist?</p>
+<form action="/stylist/$stylist.getId()/client/$client.getId()/updatestylist" method="post">
+		<select id="new-stylist" name="new-stylist">
+			#foreach($newStylist in $stylistList) 
+				<option value="$newStylist.getId()">$newStylist.getName()</option>
+			#end
+		</select>
+		
+		<button type="submit" id="client-stylist">switch</button>
+</form>
+
+<form action="/stylist/$stylist.getId()/client/$client.getId()/delete" method="post">
+	<button type="submit" id="account-delete">Delete my account</button>
+</form>
+
+<h3>Schedule a visit with your stylist here: </h3>
+<form action="/stylist/$stylist.getId()/client/$client.getId()/visit_new" method="post">
+	<label for="description">What type of style will you be looking for?</label>
+	<input type="text" id="description" name="description">
+
+	<label for="date-general">choose your visit date: </label>
+	<input type="date" id="date-general" name="date-general">
+
+	<label for="date-hour">what time? hours: </label>
+	<input id="date-hour" name="date-hour">
+
+	<label for="date-minutes">what time? minutes:</label>
+	<input id="date-minutes" name="date-minutes">
+
+	<button type="submit" id="create-visit">Schedule it!</button>
 </form>
