@@ -130,7 +130,7 @@ public class StylistTest {
 		String inputTime = "2016-05-10 06:45:00:00";
 		testVisit.getDateFromString(inputTime);
 		testVisit.schedule();
-		Timestamp testTimestamp = testVisit.getVisitDate();
+		Timestamp testTimestamp = new Timestamp(116, 04, 10, 06, 45, 00, 00);
 		assertEquals(testStylist.listVisitSchedule().get(0).getVisitDate(), testTimestamp);
 	}
 

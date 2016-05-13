@@ -18,8 +18,8 @@ public class VisitTest {
 
   @Test 
   public void getDateFromString_setsDateTimeToTimestamp_timesatamp() {
-    Timestamp testTimestamp = new Timestamp(new Date().getTime());
-    String inputTime = "2016-05-10 08:45:00:00";
+    Timestamp testTimestamp = new Timestamp(116, 04, 10, 06, 45, 00, 00);
+    String inputTime = "2016-05-10 06:45:00:00";
     Visit testVisit = new Visit(1, 0, "description", "review");
     testVisit.getDateFromString(inputTime);
     assertEquals(testVisit.getVisitDate().getDay(), testTimestamp.getDay());
